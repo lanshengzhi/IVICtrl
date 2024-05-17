@@ -8,7 +8,6 @@ const int keyPins[NUM_KEYS] = {32, 33, 25, 26}; // 按键引脚序号
 // 定义按键状态
 enum KeyState { 
     KEY_STATE_PRESS = 0, 
-    KEY_STATE_HOLD,
     KEY_STATE_RELEASE 
 };
 
@@ -84,7 +83,7 @@ void checkKeyState(Key &key) {
     switch (key.state) {
         case KEY_STATE_RELEASE:
             if (key.value == LOW) {
-                key.state = KEY_STATE_HOLD; // 处理按键按下事件
+                key.state = KEY_STATE_PRESS; // 处理按键按下事件
                 Serial.print("Key ");
                 Serial.print(key.pin);
                 Serial.println(" Pressed");
