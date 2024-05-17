@@ -3,12 +3,19 @@
 
 // 定义按键的引脚
 #define NUM_KEYS 4
-const int keyPins[NUM_KEYS] = {32, 33, 25, 26}; // 两个按键的引脚
+const int keyPins[NUM_KEYS] = {32, 33, 25, 26}; // 按键引脚序号
 
 // 定义按键状态
-enum KeyState { KEY_STATE_PRESS = 0, KEY_STATE_RELEASE };
+enum KeyState { 
+    KEY_STATE_PRESS = 0, 
+    KEY_STATE_HOLD,
+    KEY_STATE_RELEASE 
+};
 
-enum DebounceState { DEBOUNCE_IDLE, DEBOUNCE_BEGIN };
+enum DebounceState { 
+    DEBOUNCE_IDLE, 
+    DEBOUNCE_BEGIN 
+};
 
 // 定义按键结构体
 struct Key {
@@ -29,7 +36,7 @@ void debounceKey(Key &key);
 void checkKeyState(Key &key);
 
 // 初始化按键的引脚
-void keyscan_begin() {
+void keyscanBegin() {
     for (int i = 0; i < NUM_KEYS; ++i) {
         pinMode(keyPins[i], INPUT_PULLUP);
         keys[i].pin = keyPins[i];
@@ -40,7 +47,7 @@ void keyscan_begin() {
     }
 }
 
-void keyscan_loop() {
+void keyscanLoop() {
     for (int i = 0; i < NUM_KEYS; ++i) {
         debounceKey(keys[i]);
         checkKeyState(keys[i]);
@@ -59,13 +66,16 @@ void debounceKey(Key &key) {
             }
             break;
 
-        default:                              // DEBOUNCE_BEGIN
-            if (keyCurrentState == key.value) { // 如果不停抖动，则重置计时器
-                key.debouneState = DEBOUNCE_IDLE;
+        case DEBOUNCE_BEGIN:                              
+            if (keyCurrentState == key.value) { 
+                key.debouneState = DEBOUNCE_IDLE;   // 如果不停抖动，回到DEBOUNCE_IDLE，重新确认按键状态是否发生变化
             } else if ((millis() - key.lastDebounceTime) > DEBOUNCE_TIME) { // 如果经过了足够的时间，确认按键稳定
                 key.value = keyCurrentState; // 更新按键的值
                 key.debouneState = DEBOUNCE_IDLE;
             }
+            break;
+            
+        default:
             break;
     }
 }
@@ -74,7 +84,7 @@ void checkKeyState(Key &key) {
     switch (key.state) {
         case KEY_STATE_RELEASE:
             if (key.value == LOW) {
-                key.state = KEY_STATE_PRESS; // 处理按键按下事件
+                key.state = KEY_STATE_HOLD; // 处理按键按下事件
                 Serial.print("Key ");
                 Serial.print(key.pin);
                 Serial.println(" Pressed");
