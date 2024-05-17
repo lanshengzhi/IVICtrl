@@ -2,9 +2,12 @@
 
 ## Install CP210x or CH340 driver
 
-[CP210x driver download.](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads)
+USB to Serial Port Chip. 
 
-[CH340 driver download](http://www.wch.cn/downloads/CH341SER_EXE.html), usually, Windows has already installed this by default.
+Confirm which chip is used in the development board, then download the corresponding drivers.  
+
+[CP210x driver download.](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers?tab=downloads)  
+[CH340 driver download](http://www.wch.cn/downloads/CH341SER_EXE.html), Usually, Windows has these drivers installed by default. Just connect the USB cable, open Windows' Device Manager, and check it out.  
 
 ## Install vscode
 
@@ -20,13 +23,13 @@
 - PlatformIO->PIO Home->Open->New Project
 - Project name: Your project's name.
 - Board: `Espressif ESP32 Dev Module`, this my hardward board.
-- Frameword: My alternative is `Arduino`.
+- Framework: My alternative is `Arduino`.
 
 ### Setting the serial port baud rate
 
 #### PC side
 
-In `platformio.ini`, at the botom line add `monitor_speed = 921600`. 
+In `platformio.ini`, at the bottom line add `monitor_speed = 921600`. 
 
 ```ini
 [env:esp32dev]
