@@ -22,7 +22,7 @@ Confirm which chip is used in the development board, then download the correspon
 
 - PlatformIO->PIO Home->Open->New Project
 - Project name: Your project's name.
-- Board: `Espressif ESP32 Dev Module`, this my hardward board.
+- Board: `Espressif ESP32 Dev Module`, this my hardware board.
 - Framework: My alternative is `Arduino`.
 
 ### Setting the serial port baud rate
